@@ -1,6 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a Product Display Website that enables the company to display their product to their client and as well allows the client to reach out to the company through their con tact details dropped on the website, in case a particular product catches their eye or attention, It as well has an admin side that is needs to be accessed with a login form, In this part the owner of the website has access the ability to add more photos and write up as well as delete them. it has a server that stores the data inputed by the admin
 
-## Getting Started
+## To Install This Project
 
 First, run the development server:
 
