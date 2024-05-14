@@ -1,0 +1,87 @@
+server {
+    listen 80;
+    server_name nitoosanitary.com www.nitoosanitary.com;
+    gzip on;
+    gzip_proxied any;
+    gzip_types application/javascript application/x-javascript text/css text/javascript;
+    gzip_comp_level 6;
+    gzip_buffers 16 8k;
+    gzip_min_length 256;
+
+
+
+    location /_next/static/ {
+        alias /var/www/Nitoo/client/.next/static/;
+        expires 365d;
+        access_log off;
+    }
+
+    location / {
+        proxy_pass http://162.0.236.55:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+server {
+    listen 80;
+    server_name api.nitoosanitary.com;
+    
+
+	
+    location /api {
+        proxy_pass http://162.0.236.55:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    location /public/images/ {
+        alias /var/www/Nitoo/api/public/images/;
+        try_files $uri $uri/ =404;
+    }
+}
+
+server {
+    listen 80;
+    server_name admin.nitoosanitary.com;
+    
+    gzip on;
+    gzip_proxied any;
+    gzip_types application/javascript application/x-javascript text/css text/javascript;
+    gzip_comp_level 6;
+    gzip_buffers 16 8k;
+    gzip_min_length 256;
+
+
+
+    location /_next/static/ {
+        alias /var/www/Nitoo/admin/.next/static/;
+        expires 365d;
+        access_log off;
+    }
+
+    location / {
+        proxy_pass http://162.0.236.55:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+
+certbot --nginx -d nitoosanitary.com -d www.nitoosanitary.com -d admin.nitoosanitary.com
+
+apt install certbot python3-certbot-nginx
+
+certbot --nginx -d example.com -d www.example.com
+
+
+/var/www/Nitoo/client     pm2 start nodemon --name api -- server.js
